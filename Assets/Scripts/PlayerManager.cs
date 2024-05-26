@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
 
     [SerializeField] private float speed;
+    [SerializeField] private List<CharacterPlayable> playableCharacters;
 
     public bool isFight {  get; private set; }
     private GameManager gameManager;
@@ -35,13 +36,24 @@ public class PlayerManager : MonoBehaviour
     {
         if (other.CompareTag("FightTrigger"))
         {
+            ToggleFight(true);
             gameManager.TriggerFight(true);
+            other.GetComponent<FightTrigger>().InitiateFight();
             Destroy(other.gameObject);
+            BattleManager.Instance.ActivateFirstCharacter();
         }
     }
 
     public void ToggleFight(bool fight)
     {
+        if (isFight)
+        {
+            foreach (CharacterPlayable character in playableCharacters)
+            {
+                BattleManager.Instance.AddCharacterToInitiativeList(character as Character);
+                character.CharacterEnteredBattle();
+            }
+        }
         isFight = fight;
     }
 }

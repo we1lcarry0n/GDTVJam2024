@@ -2,20 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterEnemy : MonoBehaviour
+public class CharacterEnemy : Character
 {
-    private Animator animator;
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (GameManager.Instance.isFight)
+        if (isActiveInBattle)
         {
-            animator.SetTrigger("IsFight");
+            UseSkill();   
         }
+    }
+
+    public void InitiateFight()
+    {
+        animator.SetTrigger("IsFight");
+    }
+
+    private void UseSkill()
+    {
+        StartCoroutine(UseSkillRoutine());
+    }
+
+    private IEnumerator UseSkillRoutine()
+    {
+        isActiveInBattle = false;
+        yield return new WaitForSeconds(2);
+        BattleManager.Instance.CharacterEndedTurn();
     }
 }
