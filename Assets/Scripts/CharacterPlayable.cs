@@ -14,6 +14,7 @@ public class CharacterPlayable : Character
         }
         if (isActiveInBattle && Input.GetKeyDown(KeyCode.Alpha1))
         {
+            isActiveInBattle = false;
             StartCoroutine(EndedTurnRoutine());
         }
     }
@@ -25,8 +26,16 @@ public class CharacterPlayable : Character
         return;
     }
 
+    public void CharacterExitedBattle()
+    {
+        animator.SetBool("isFight", false);
+    }
+
     private IEnumerator EndedTurnRoutine()
     {
+        EnemyManager.Instance.enemyCharacters[0].GetComponent<Health>().ModifyHealth(-50);
+        EnemyManager.Instance.enemyCharacters[1].GetComponent<Health>().ModifyHealth(-40);
+        EnemyManager.Instance.enemyCharacters[2].GetComponent<Health>().ModifyHealth(-30);
         yield return new WaitForSeconds(.5f);
         EndTurn();
     }

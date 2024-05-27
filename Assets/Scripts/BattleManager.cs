@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -25,10 +26,7 @@ public class BattleManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            foreach (Character character in charactersInBattle)
-            {
-                Debug.Log(character.gameObject.name);
-            }
+            EndBattleEnemiesDefeated();
         }
     }
 
@@ -37,6 +35,11 @@ public class BattleManager : MonoBehaviour
         charactersInBattle.Add(character);
         charactersInBattle.Sort();
         charactersInBattle.Reverse();
+    }
+
+    public void RemoveCharacterFromInitiativeList(Character character)
+    {
+        charactersInBattle.Remove(character);
     }
 
     public void ClearInitiative()
@@ -52,6 +55,10 @@ public class BattleManager : MonoBehaviour
 
     public void CharacterEndedTurn()
     {
+        if (!GameManager.Instance.isFight)
+        {
+            return;
+        }
         charactersInBattle[activeCharacterInBattleIndex].DeactivateCharacterInBattle();
         if (activeCharacterInBattleIndex == charactersInBattle.Count - 1)
         {
@@ -61,8 +68,36 @@ public class BattleManager : MonoBehaviour
         {
             activeCharacterInBattleIndex++;
         }
-        charactersInBattle[activeCharacterInBattleIndex].ActivateCharacterInBattle();
-        Debug.Log($"Active character is {activeCharacterInBattleIndex}");
+        if (!charactersInBattle[activeCharacterInBattleIndex].IsDefeated)
+        {
+            charactersInBattle[activeCharacterInBattleIndex].ActivateCharacterInBattle();
+            Debug.Log($"Active character is {activeCharacterInBattleIndex}, so init count is {charactersInBattle.Count}");
+            return;
+        }
+        else
+        {
+            CharacterEndedTurn();
+            Debug.Log("Character was Defeated!");
+            return;
+        }
+        
+    }
+
+    public void EndBattleEnemiesDefeated()
+    {
+        foreach(Character character in charactersInBattle)
+        {
+            character.DeactivateCharacterInBattle();
+        }
+        ClearInitiative();
+        // Clear everything in EnemyManager
+        GameManager.Instance.TriggerFight(false);
+        PlayerManager.Instance.ToggleFight(false);
+    }
+
+    public void EndBattlePlayerDefeated()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
                                                                                                                                                                         

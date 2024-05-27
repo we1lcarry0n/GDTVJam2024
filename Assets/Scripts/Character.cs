@@ -12,6 +12,8 @@ public class Character : MonoBehaviour, IComparable
 
     protected bool isActiveInBattle;
 
+    public bool IsDefeated { get; private set; }
+
 
     protected void Start()
     {
@@ -26,6 +28,16 @@ public class Character : MonoBehaviour, IComparable
     public int GetInitiative()
     {
         return initiative;
+    }
+
+    public void SetCharacterDefeated()
+    {
+        IsDefeated = true;
+    }
+
+    public void UnsetCharacterDefeated()
+    {
+        IsDefeated = false;
     }
 
     private void ToggleActiveIndicator(bool isActive)

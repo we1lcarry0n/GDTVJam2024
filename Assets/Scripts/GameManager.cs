@@ -23,6 +23,5 @@ public class GameManager : MonoBehaviour
     public void TriggerFight(bool fight)
     {
         isFight = fight;
-        PlayerManager.Instance.ToggleFight(isFight);
     }
 }

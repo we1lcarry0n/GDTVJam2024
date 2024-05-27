@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private float speed;
     [SerializeField] private List<CharacterPlayable> playableCharacters;
+
+    [SerializeField] public Image[] playableCharactersHealthBars { get; private set; }
 
     public bool isFight {  get; private set; }
     private GameManager gameManager;
@@ -46,13 +49,22 @@ public class PlayerManager : MonoBehaviour
 
     public void ToggleFight(bool fight)
     {
-        if (isFight)
+        if (fight)
         {
             foreach (CharacterPlayable character in playableCharacters)
             {
                 BattleManager.Instance.AddCharacterToInitiativeList(character as Character);
                 character.CharacterEnteredBattle();
             }
+            Debug.Log("The fight has begun!");
+        }
+        if (fight)
+        {
+            foreach(CharacterPlayable character in playableCharacters)
+            {
+                character.CharacterExitedBattle();
+            }
+            Debug.Log("The fight has ended!");
         }
         isFight = fight;
     }
