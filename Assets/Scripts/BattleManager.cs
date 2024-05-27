@@ -11,10 +11,14 @@ public class BattleManager : MonoBehaviour
     private List<Character> charactersInBattle;
 
     private int activeCharacterInBattleIndex;
+    private ParticleSystem defeatedEnemiesParticles;
+    private List<Character> defeatedCharacters;
+
     private void Awake()
     {
         Instance = this;
         charactersInBattle = new List<Character>();
+        defeatedCharacters = new List<Character>();
     }
 
     private void Update()
@@ -26,7 +30,7 @@ public class BattleManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            EndBattleEnemiesDefeated();
+            //EndBattleEnemiesDefeated();
         }
     }
 
@@ -35,6 +39,11 @@ public class BattleManager : MonoBehaviour
         charactersInBattle.Add(character);
         charactersInBattle.Sort();
         charactersInBattle.Reverse();
+    }
+
+    public void SetDefeatedParticles(ParticleSystem defeatedParticles)
+    {
+        defeatedEnemiesParticles = defeatedParticles;
     }
 
     public void RemoveCharacterFromInitiativeList(Character character)
@@ -85,12 +94,20 @@ public class BattleManager : MonoBehaviour
 
     public void EndBattleEnemiesDefeated()
     {
-        foreach(Character character in charactersInBattle)
+        foreach (CharacterEnemy enemy in EnemyManager.Instance.enemyCharacters)
+        {
+            defeatedCharacters.Add(enemy);
+        }
+        /*for (int i = 0; i < EnemyManager.Instance.enemyCharacters.Count; i++)
+        {
+            defeatedCharacters[i] = EnemyManager.Instance.enemyCharacters[i];
+        }*/
+        foreach (Character character in charactersInBattle)
         {
             character.DeactivateCharacterInBattle();
         }
         ClearInitiative();
-        // Clear everything in EnemyManager
+        StartCoroutine(DefeatedEnemiesRoutine());
         GameManager.Instance.TriggerFight(false);
         PlayerManager.Instance.ToggleFight(false);
     }
@@ -98,6 +115,12 @@ public class BattleManager : MonoBehaviour
     public void EndBattlePlayerDefeated()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private IEnumerator DefeatedEnemiesRoutine()
+    {
+        yield return new WaitForSeconds(3);
+        defeatedEnemiesParticles.Play();
     }
 }
                                                                                                                                                                         

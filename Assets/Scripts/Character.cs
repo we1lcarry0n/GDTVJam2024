@@ -78,4 +78,9 @@ public class Character : MonoBehaviour, IComparable
         }
         return 0;
     }
+
+    public Animator GetAnimator()
+    {
+        return animator;
+    }
 }

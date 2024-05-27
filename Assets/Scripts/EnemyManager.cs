@@ -30,11 +30,31 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (defeatedEnemies.Count == enemyCharacters.Count)
+        if (defeatedEnemies.Count == enemyCharacters.Count && defeatedEnemies.Count != 0)
         {
+            ConsealAllEnemyUI();
+            ClearAllLists();
             //Trigger All Remove Enemy from Scene functions in every enemy.
             BattleManager.Instance.EndBattleEnemiesDefeated();
         }
+    }
+
+    private void ConsealAllEnemyUI()
+    {
+        foreach(Image image in enemyCharactersHealthBars)
+        {
+            image.fillAmount = 1;
+        }
+    }
+
+    private void ClearAllLists()
+    {
+        foreach (CharacterEnemy enemy in defeatedEnemies)
+        {
+            enemy.GetComponent<HealthEnemy>().SetCharacterDestructionTimer(4.5f);
+        }
+        defeatedEnemies.Clear();
+        enemyCharacters.Clear();
     }
 
     public void AddElemenToCharactersEnemy(CharacterEnemy enemy)

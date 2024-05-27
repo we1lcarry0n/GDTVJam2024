@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
             }
             Debug.Log("The fight has begun!");
         }
-        if (fight)
+        if (!fight)
         {
             foreach(CharacterPlayable character in playableCharacters)
             {

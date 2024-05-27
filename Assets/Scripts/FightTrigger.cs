@@ -5,6 +5,7 @@ using UnityEngine;
 public class FightTrigger : MonoBehaviour
 {
     [SerializeField] private List<CharacterEnemy> enemyCharacters;
+    [SerializeField] private ParticleSystem defeatedParticles;
 
     // Start is called before the first frame update
     private void Start()
@@ -22,6 +23,7 @@ public class FightTrigger : MonoBehaviour
     {
         foreach (CharacterEnemy character in enemyCharacters)
         {
+            BattleManager.Instance.SetDefeatedParticles(defeatedParticles);
             EnemyManager.Instance.AddElemenToCharactersEnemy(character);
             BattleManager.Instance.AddCharacterToInitiativeList(character as Character);
             character.InitiateFight();
