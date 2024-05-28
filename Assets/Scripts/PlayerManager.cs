@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
 
     [SerializeField] private float speed;
-    [SerializeField] private List<CharacterPlayable> playableCharacters;
+    [field : SerializeField] public List<CharacterPlayable> playableCharacters {  get; private set; }
 
     [SerializeField] public Image[] playableCharactersHealthBars { get; private set; }
 
