@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
 
     private List<CharacterEnemy> defeatedEnemies;
 
-    [field : SerializeField] public Image[] enemyCharactersHealthBars {  get; private set; }
+    [field : SerializeField] public List<Slider> enemyCharactersHealthBars {  get; private set; }
 
 
     private void Awake()
@@ -19,6 +19,7 @@ public class EnemyManager : MonoBehaviour
         Instance = this;
         enemyCharacters = new List<CharacterEnemy>();
         defeatedEnemies = new List<CharacterEnemy>();
+        enemyCharactersHealthBars = new List<Slider>();
     }
 
     // Start is called before the first frame update
@@ -41,10 +42,10 @@ public class EnemyManager : MonoBehaviour
 
     private void ConsealAllEnemyUI()
     {
-        foreach(Image image in enemyCharactersHealthBars)
+        /*foreach(Image image in enemyCharactersHealthBars)
         {
             image.fillAmount = 1;
-        }
+        }*/
     }
 
     private void ClearAllLists()
@@ -55,11 +56,13 @@ public class EnemyManager : MonoBehaviour
         }
         defeatedEnemies.Clear();
         enemyCharacters.Clear();
+        enemyCharactersHealthBars.Clear();
     }
 
     public void AddElemenToCharactersEnemy(CharacterEnemy enemy)
     {
         enemyCharacters.Add(enemy);
+        enemyCharactersHealthBars.Add(enemy.enemyHealthBar);
     }
 
     public void RemoveEnemyFromList(CharacterEnemy enemy)

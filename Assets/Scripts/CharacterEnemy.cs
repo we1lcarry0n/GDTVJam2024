@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterEnemy : Character
 {
 
-    // Update is called once per frame
+    [field : SerializeField] public Slider enemyHealthBar { get; private set; }
+
     private void Update()
     {
         if (isActiveInBattle)

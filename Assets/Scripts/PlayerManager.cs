@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float speed;
     [field : SerializeField] public List<CharacterPlayable> playableCharacters {  get; private set; }
 
-    [SerializeField] public Image[] playableCharactersHealthBars { get; private set; }
+    [field : SerializeField] public Slider[] playableCharactersHealthBars { get; private set; }
 
     public bool isFight {  get; private set; }
     private GameManager gameManager;

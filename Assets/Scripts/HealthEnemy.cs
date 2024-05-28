@@ -14,7 +14,7 @@ public class HealthEnemy : Health
 
     public override void UpdateHealthUIBar(float percentageAmount)
     {
-        EnemyManager.Instance.enemyCharactersHealthBars[indexOnScene].fillAmount = percentageAmount + .01f;
+        EnemyManager.Instance.enemyCharactersHealthBars[indexOnScene].value = percentageAmount;
     }
 
     public void SetCharacterDestructionTimer(float time)

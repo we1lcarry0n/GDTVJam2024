@@ -11,6 +11,6 @@ public class HealthPlayer : Health
 
     public override void UpdateHealthUIBar(float percentageAmount)
     {
-        PlayerManager.Instance.playableCharactersHealthBars[indexOnScene].fillAmount = percentageAmount + .01f;
+        PlayerManager.Instance.playableCharactersHealthBars[indexOnScene].value = percentageAmount;
     }
 }
