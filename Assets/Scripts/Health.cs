@@ -11,6 +11,8 @@ public class Health : MonoBehaviour
 
     [SerializeField] protected ParticleSystem onHitParticle;
     [SerializeField] protected GameObject damageText;
+    [SerializeField] protected GameObject healthText;
+    [SerializeField] protected ParticleSystem healParticles;
 
     protected float currentHealth;
 
@@ -32,8 +34,22 @@ public class Health : MonoBehaviour
         {
             return;
         }
+        if (healthModified == 0)
+        {
+            return;
+        }
+
         currentHealth += healthModified;
-        PlayDamagetext(healthModified);
+
+        if (healthModified > 0)
+        {
+            PlayHealText(healthModified);
+        }
+        if (healthModified < 0) 
+        {
+            PlayDamagetext(healthModified);
+        }
+
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUIBar(currentHealth / maxHealth);
         onHitParticle.Play();
@@ -58,5 +74,13 @@ public class Health : MonoBehaviour
         damageText.SetActive(true);
         damageText.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = DamageAmount.ToString();
         damageText.GetComponent<Animation>().Play();
+    }
+
+    protected void PlayHealText(float HealAmount)
+    {
+        damageText.SetActive(true);
+        damageText.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = HealAmount.ToString();
+        damageText.GetComponent<Animation>().Play();
+        healParticles.Play();
     }
 }

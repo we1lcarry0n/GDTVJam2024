@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class CharacterPlayable : Character
 {
+    [SerializeField] private float applyDmgBuffForSkill3;
     [SerializeField] private Skill[] skills;
 
     [SerializeField] private float skillsDamageMultiplier;
+
+    [SerializeField] private GameObject buffFX;
+
+    private float temporarySkillDamageGradeMultiplier;
 
     private void Update()
     {
@@ -54,8 +59,12 @@ public class CharacterPlayable : Character
         {
             targets.Add(character.transform);
         }
-        StartCoroutine(skills[0].Init(targets, skillsDamageMultiplier));
+        StartCoroutine(skills[0].Init(targets, skillsDamageMultiplier + temporarySkillDamageGradeMultiplier));
         animator.SetTrigger("skill1");
+        if (temporarySkillDamageGradeMultiplier != 0)
+        {
+            RemoveTemporaryBuff();
+        }
     }
 
     public void UseSkill2()
@@ -65,8 +74,12 @@ public class CharacterPlayable : Character
         {
             targets.Add(character.transform);
         }
-        StartCoroutine(skills[1].Init(targets, skillsDamageMultiplier));
+        StartCoroutine(skills[1].Init(targets, skillsDamageMultiplier + temporarySkillDamageGradeMultiplier));
         animator.SetTrigger("skill2");
+        if (temporarySkillDamageGradeMultiplier != 0)
+        {
+            RemoveTemporaryBuff();
+        }
     }
 
     public void UseSkill3()
@@ -75,9 +88,22 @@ public class CharacterPlayable : Character
         foreach (CharacterPlayable character in PlayerManager.Instance.playableCharacters)
         {
             targets.Add(character.transform);
+            character.AddTemporaryDmgBuff(applyDmgBuffForSkill3);
         }
         StartCoroutine(skills[2].Init(targets, skillsDamageMultiplier));
         animator.SetTrigger("skill3");
+    }
+
+    private void AddTemporaryDmgBuff(float amount)
+    {
+        temporarySkillDamageGradeMultiplier = amount;
+        buffFX.SetActive(true);
+    }
+
+    private void RemoveTemporaryBuff()
+    {
+        temporarySkillDamageGradeMultiplier = 0;
+        buffFX.SetActive(false);
     }
 
     private IEnumerator EndedTurnRoutine()
