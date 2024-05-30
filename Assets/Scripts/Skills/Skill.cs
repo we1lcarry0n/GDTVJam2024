@@ -9,6 +9,7 @@ public class Skill
     [field: SerializeField] private float skillDamage;
     [field: SerializeField] private int[] targetsToDamage;
     [field: SerializeField] private float skillPrewarmTime;
+    [field: SerializeField] private float nextDamageInstanceModifier;
 
     public IEnumerator Init(List<Transform> targets, float damageMultiplierFromCharacter)
     {
@@ -16,6 +17,10 @@ public class Skill
         foreach (int i in targetsToDamage)
         {
             targets[i].GetComponent<Health>().ModifyHealth(-skillDamage * damageMultiplierFromCharacter);
+            if (nextDamageInstanceModifier != 0)
+            {
+                targets[i].GetComponent<Health>().IncreaseNextDamageInstance(nextDamageInstanceModifier);
+            }
         }
     }
 

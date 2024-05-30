@@ -13,6 +13,10 @@ public class Health : MonoBehaviour
     [SerializeField] protected GameObject damageText;
     [SerializeField] protected GameObject healthText;
     [SerializeField] protected ParticleSystem healParticles;
+    [SerializeField] protected GameObject buffNextDamageAmountFX;
+    [SerializeField] private GameObject debuffNextDamageAmountFX;
+
+    protected float nextDamageInstanceModifier = 1f;
 
     protected float currentHealth;
 
@@ -39,17 +43,25 @@ public class Health : MonoBehaviour
             return;
         }
 
-        currentHealth += healthModified;
+        float updatedModifiedHealth = healthModified * nextDamageInstanceModifier;
 
         if (healthModified > 0)
         {
+            currentHealth += healthModified;
             PlayHealText(healthModified);
         }
-        if (healthModified < 0) 
+        if (healthModified < 0)
         {
-            PlayDamagetext(healthModified);
+            currentHealth += updatedModifiedHealth;
+            PlayDamagetext(updatedModifiedHealth);
+            if (nextDamageInstanceModifier != 1)
+            {
+                DisableAllModifiersOnDamage();
+                nextDamageInstanceModifier = 1;
+            }
             onHitParticle.Play();
         }
+        
 
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUIBar(currentHealth / maxHealth);
@@ -62,6 +74,19 @@ public class Health : MonoBehaviour
     public virtual void UpdateHealthUIBar(float percentageAmount)
     {
 
+    }
+
+    public void IncreaseNextDamageInstance(float percentageAmount)
+    {
+        nextDamageInstanceModifier += percentageAmount;
+        if (percentageAmount > 0)
+        {
+            debuffNextDamageAmountFX.SetActive(true);
+        }
+        if (percentageAmount < 0)
+        {
+            buffNextDamageAmountFX.SetActive(true);
+        }
     }
 
     public virtual void Die()
@@ -104,5 +129,11 @@ public class Health : MonoBehaviour
         healthText.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = HealAmount.ToString();
         healthText.GetComponent<Animation>().Play();
         healParticles.Play();
+    }
+
+    private void DisableAllModifiersOnDamage()
+    {
+        buffNextDamageAmountFX.SetActive(false);
+        debuffNextDamageAmountFX.SetActive(false);
     }
 }

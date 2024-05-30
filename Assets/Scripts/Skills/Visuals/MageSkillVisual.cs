@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MageSkillVisual : MonoBehaviour
+{
+    [SerializeField] private GameObject kunaiProjectile;
+    [SerializeField] private GameObject cursedPaperProjectile;
+    [SerializeField] private GameObject blessedPaperProjectile;
+
+    [SerializeField] private Transform projectileLaunchTransform;
+    [SerializeField] private Transform projectileLaunchUpper;
+    [SerializeField] private Transform projectileLaunchLower;
+
+    public void KunaiThrowSkill1()
+    {
+        GameObject arrowObject = Instantiate(kunaiProjectile, projectileLaunchTransform);
+        Destroy(arrowObject, 1.2f);
+    }
+
+    public void CursedPapersThrowSkill2()
+    {
+        GameObject arrowObject1 = Instantiate(cursedPaperProjectile, projectileLaunchUpper);
+        GameObject arrowObject2 = Instantiate(cursedPaperProjectile, projectileLaunchTransform);
+        GameObject arrowObject3 = Instantiate(cursedPaperProjectile, projectileLaunchLower);
+        Destroy(arrowObject1, 1.8f);
+        Destroy(arrowObject2, 1.5f);
+        Destroy(arrowObject3, 1.2f);
+    }
+
+    public void BlessedPapersThrowSkill3()
+    {
+        GameObject arrowObject1 = Instantiate(blessedPaperProjectile, projectileLaunchUpper);
+        GameObject arrowObject2 = Instantiate(blessedPaperProjectile, projectileLaunchTransform);
+        GameObject arrowObject3 = Instantiate(blessedPaperProjectile, projectileLaunchLower);
+        Destroy(arrowObject1, .3f);
+        Destroy(arrowObject2, .6f);
+        Destroy(arrowObject3, .9f);
+    }
+}
