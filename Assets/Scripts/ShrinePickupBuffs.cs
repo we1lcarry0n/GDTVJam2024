@@ -4,42 +4,22 @@ using UnityEngine;
 
 public class ShrinePickupBuffs : MonoBehaviour
 {
-    [SerializeField] private float increaseMaxHpAmount;
-    [SerializeField] private float healAllAmount;
-    [SerializeField] private float increaseDmgPercentageAmount;
 
     [SerializeField] private GameObject ChoseUIPanel;
     [SerializeField] private GameObject ToolTipGO;
 
     private bool isInRange;
+    private bool isUsed;
 
-    public void IncreaseMaxHp()
-    {
-        ToolTipGO.SetActive(false);
-        ChoseUIPanel.SetActive(false);
-        Destroy(gameObject);
-    }
-
-    public void HealAll()
-    {
-        ToolTipGO.SetActive(false);
-        ChoseUIPanel.SetActive(false);
-        Destroy(gameObject);
-    }
-
-    public void IncreaseMaxDmg()
-    {
-        ToolTipGO.SetActive(false);
-        ChoseUIPanel.SetActive(false);
-        Destroy(gameObject);
-    }
 
     private void Update()
     {
-        if (isInRange)
+        if (isInRange && !isUsed)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                isUsed = true;
+                ToolTipGO.SetActive(false);
                 ChoseUIPanel.SetActive(true);
             }
         }
@@ -47,6 +27,10 @@ public class ShrinePickupBuffs : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isUsed)
+        {
+            return;
+        }
         if (other.CompareTag("Player"))
         {
             isInRange = true;
@@ -56,6 +40,10 @@ public class ShrinePickupBuffs : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (isUsed)
+        {
+            return;
+        }
         if (other.CompareTag("Player"))
         {
             isInRange = false;

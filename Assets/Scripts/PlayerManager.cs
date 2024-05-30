@@ -18,6 +18,8 @@ public class PlayerManager : MonoBehaviour
     [field : SerializeField] public TMP_Text characterSkillDescriptionText { get; private set; }    
 
     public bool isFight {  get; private set; }
+    public bool isInInterraction;
+
     private GameManager gameManager;
     private void Awake()
     {
@@ -33,6 +35,10 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         if (isFight)
+        {
+            return;
+        }
+        if (isInInterraction)
         {
             return;
         }

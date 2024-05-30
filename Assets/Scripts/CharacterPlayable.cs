@@ -56,6 +56,8 @@ public class CharacterPlayable : Character
     public void CharacterExitedBattle()
     {
         animator.SetBool("isFight", false);
+        RemoveTemporaryBuff();
+        GetComponent<Health>().DisableAllModifiersOnDamage();
     }
 
     public override void ActivateCharacterInBattle()
@@ -141,6 +143,7 @@ public class CharacterPlayable : Character
     public void IncreaseDmg(float percentageAmount)
     {
         skillsDamageMultiplier += percentageAmount;
+        StartCoroutine(IncreasedDamageFXRoutine());
     }
 
     private void AddTemporaryDmgBuff(float amount)
@@ -159,5 +162,12 @@ public class CharacterPlayable : Character
     {
         yield return new WaitForSeconds(2.5f);
         EndTurn();
+    }
+
+    private IEnumerator IncreasedDamageFXRoutine()
+    {
+        buffFX.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        buffFX.SetActive(false);
     }
 }

@@ -10,6 +10,10 @@ public class PlayerSelectionOverlayController : MonoBehaviour
 
     public void SelectClickedCharacter()
     {
+        if (PlayerManager.Instance.isInInterraction)
+        {
+            return;
+        }
         DeselectAll();
         characterSelectedObject[characterToSelectIndex].SetActive(true);
         PlayerManager.Instance.playableCharacters[characterToSelectIndex].ActivateCharacterOutsidebattle();

@@ -57,7 +57,7 @@ public class Health : MonoBehaviour
             if (nextDamageInstanceModifier != 1)
             {
                 DisableAllModifiersOnDamage();
-                nextDamageInstanceModifier = 1;
+                
             }
             onHitParticle.Play();
         }
@@ -131,9 +131,10 @@ public class Health : MonoBehaviour
         healParticles.Play();
     }
 
-    private void DisableAllModifiersOnDamage()
+    public void DisableAllModifiersOnDamage()
     {
         buffNextDamageAmountFX.SetActive(false);
         debuffNextDamageAmountFX.SetActive(false);
+        nextDamageInstanceModifier = 1;
     }
 }
