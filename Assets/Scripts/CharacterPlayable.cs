@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterPlayable : Character
 {
@@ -10,6 +11,11 @@ public class CharacterPlayable : Character
     [SerializeField] private float skillsDamageMultiplier;
 
     [SerializeField] private GameObject buffFX;
+
+    [SerializeField] private Sprite[] skillSprites;
+    [SerializeField] private string[] characterName;
+    [SerializeField] private string[] engSkillDescriptions;
+    [SerializeField] private string[] ukrSkillDescriptions;
 
     private float temporarySkillDamageGradeMultiplier;
 
@@ -24,19 +30,19 @@ public class CharacterPlayable : Character
         {
             isActiveInBattle = false;
             UseSkill1();
-            StartCoroutine(EndedTurnRoutine());
+            //StartCoroutine(EndedTurnRoutine());
         }
         if (isActiveInBattle && Input.GetKeyDown(KeyCode.Alpha2))
         {
             isActiveInBattle = false;
             UseSkill2();
-            StartCoroutine(EndedTurnRoutine());
+            //StartCoroutine(EndedTurnRoutine());
         }
         if (isActiveInBattle && Input.GetKeyDown(KeyCode.Alpha3))
         {
             isActiveInBattle = false;
             UseSkill3();
-            StartCoroutine(EndedTurnRoutine());
+            //StartCoroutine(EndedTurnRoutine());
         }
     }
 
@@ -52,6 +58,38 @@ public class CharacterPlayable : Character
         animator.SetBool("isFight", false);
     }
 
+    public override void ActivateCharacterInBattle()
+    {
+        base.ActivateCharacterInBattle();
+        ActivateCharacterOutsidebattle();
+    }
+
+    public void ActivateCharacterOutsidebattle()
+    {
+        for (int i = 0; i < skillSprites.Length; i++)
+        {
+            PlayerManager.Instance.playerSkillImages[i].image.sprite = skillSprites[i];
+            PlayerManager.Instance.playerSkillImages[i].GetComponent<SkillButton>().SetCurrentActiveCharacter(this);
+            if (PlayerPrefs.GetInt("lang") == 0)
+            {
+                PlayerManager.Instance.playerSkillImages[i].GetComponent<SkillButton>().SetSkillDescription(engSkillDescriptions[i]);
+            }
+            else
+            {
+                PlayerManager.Instance.playerSkillImages[i].GetComponent<SkillButton>().SetSkillDescription(ukrSkillDescriptions[i]);
+            }
+        }
+        if (PlayerPrefs.GetInt("lang") == 0)
+        {
+            PlayerManager.Instance.characterNameText.text = characterName[0];
+        }
+        else
+        {
+            PlayerManager.Instance.characterNameText.text = characterName[1];
+        }
+        PlayerManager.Instance.characterHealthValueText.text = $"{GetComponent<Health>().GetHealthCurrent()} / {GetComponent<Health>().GetHealthMax()}";
+    }
+
     public void UseSkill1()
     {
         List<Transform> targets = new List<Transform>();
@@ -65,6 +103,7 @@ public class CharacterPlayable : Character
         {
             RemoveTemporaryBuff();
         }
+        StartCoroutine(EndedTurnRoutine());
     }
 
     public void UseSkill2()
@@ -80,6 +119,7 @@ public class CharacterPlayable : Character
         {
             RemoveTemporaryBuff();
         }
+        StartCoroutine(EndedTurnRoutine());
     }
 
     public void UseSkill3()
@@ -88,10 +128,19 @@ public class CharacterPlayable : Character
         foreach (CharacterPlayable character in PlayerManager.Instance.playableCharacters)
         {
             targets.Add(character.transform);
-            character.AddTemporaryDmgBuff(applyDmgBuffForSkill3);
+            if (applyDmgBuffForSkill3 != 0)
+            {
+                character.AddTemporaryDmgBuff(applyDmgBuffForSkill3);
+            }
         }
         StartCoroutine(skills[2].Init(targets, skillsDamageMultiplier));
         animator.SetTrigger("skill3");
+        StartCoroutine(EndedTurnRoutine());
+    }
+
+    public void IncreaseDmg(float percentageAmount)
+    {
+        skillsDamageMultiplier += percentageAmount;
     }
 
     private void AddTemporaryDmgBuff(float amount)

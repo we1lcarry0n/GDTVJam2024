@@ -48,11 +48,11 @@ public class Health : MonoBehaviour
         if (healthModified < 0) 
         {
             PlayDamagetext(healthModified);
+            onHitParticle.Play();
         }
 
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUIBar(currentHealth / maxHealth);
-        onHitParticle.Play();
         if (currentHealth == 0)
         {
             Die();
@@ -69,6 +69,28 @@ public class Health : MonoBehaviour
         isDead = true;
     }
 
+    public float GetHealthCurrent()
+    {
+        return currentHealth;
+    }
+
+    public float GetHealthMax()
+    {
+        return maxHealth;
+    }
+
+    public void IncreaseMaxHP(float amount)
+    {
+        maxHealth += amount;
+        ModifyHealth(amount);
+    }
+
+    public void HealForPercentageAmount(float percentageAmount)
+    {
+        float toHeal = maxHealth * percentageAmount;
+        ModifyHealth(toHeal);
+    }
+
     protected void PlayDamagetext(float DamageAmount)
     {
         damageText.SetActive(true);
@@ -78,9 +100,9 @@ public class Health : MonoBehaviour
 
     protected void PlayHealText(float HealAmount)
     {
-        damageText.SetActive(true);
-        damageText.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = HealAmount.ToString();
-        damageText.GetComponent<Animation>().Play();
+        healthText.SetActive(true);
+        healthText.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = HealAmount.ToString();
+        healthText.GetComponent<Animation>().Play();
         healParticles.Play();
     }
 }

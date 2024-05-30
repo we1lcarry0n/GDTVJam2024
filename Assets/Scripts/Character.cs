@@ -45,7 +45,7 @@ public class Character : MonoBehaviour, IComparable
         activeIndicator.SetActive(isActive);
     }
 
-    public void ActivateCharacterInBattle()
+    public virtual void ActivateCharacterInBattle()
     {
         isActiveInBattle = true;
         ToggleActiveIndicator(true);

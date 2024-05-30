@@ -8,6 +8,12 @@ public class GameManager : MonoBehaviour
 
     public bool isFight {  get; private set; }
 
+    [SerializeField] private AudioSource backgroundMusicAudioSource;
+    [SerializeField] private AudioClip adventuringAudioClip;
+    [SerializeField] private AudioClip battleAudioClip;
+
+    [SerializeField] private PlayerSelectionOverlayController playerSelectionOverlayController;
+
     private void Awake()
     {
         Instance = this;
@@ -23,5 +29,17 @@ public class GameManager : MonoBehaviour
     public void TriggerFight(bool fight)
     {
         isFight = fight;
+        if (fight)
+        {
+            playerSelectionOverlayController.DeselectAll();
+            backgroundMusicAudioSource.clip = battleAudioClip;
+            backgroundMusicAudioSource.Play();
+        }
+        else
+        {
+            playerSelectionOverlayController.SelectFirst();
+            backgroundMusicAudioSource.clip = adventuringAudioClip;
+            backgroundMusicAudioSource.Play();
+        }
     }
 }

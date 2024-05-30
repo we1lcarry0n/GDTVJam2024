@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,10 @@ public class PlayerManager : MonoBehaviour
     [field : SerializeField] public List<CharacterPlayable> playableCharacters {  get; private set; }
 
     [field : SerializeField] public Slider[] playableCharactersHealthBars { get; private set; }
+    [field : SerializeField] public List<Button> playerSkillImages { get; private set; }
+    [field : SerializeField] public TMP_Text characterNameText { get; private set; }
+    [field: SerializeField] public TMP_Text characterHealthValueText{ get; private set; }
+    [field : SerializeField] public TMP_Text characterSkillDescriptionText { get; private set; }    
 
     public bool isFight {  get; private set; }
     private GameManager gameManager;
