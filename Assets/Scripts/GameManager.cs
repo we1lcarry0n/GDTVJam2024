@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerSelectionOverlayController playerSelectionOverlayController;
 
+    [SerializeField] private GameObject journalGameObject;
+
     private void Awake()
     {
         Instance = this;
@@ -25,6 +27,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F12))
         {
             SceneManager.LoadScene(0);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            PlayerManager.Instance.isInInterraction = true;
+            journalGameObject.SetActive(true);
         }
     }
     public void TriggerFight(bool fight)

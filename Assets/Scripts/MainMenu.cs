@@ -7,10 +7,17 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject creditsPanel;
     [field: SerializeField] private List<string> ukrButtons;
     [field: SerializeField] private List<string> engButtons;
 
     [field: SerializeField] private List<TMP_Text> buttonsText;
+
+    [SerializeField] private GameObject urkCredits;
+    [SerializeField] private GameObject englishCredits;
+
+    [SerializeField] private AudioSource buttonClickAS;
+    [SerializeField] private AudioSource startGameAS;
 
     private void Start()
     {
@@ -19,17 +26,41 @@ public class MainMenu : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene(1);
+        StartCoroutine(StartGameRoutine());
     }
 
     public void ExitButton()
     {
+        PlayButtonClickAudio();
         Application.Quit();
     }
 
     public void SettingsButton()
     {
         settingsPanel.SetActive(true);
+        PlayButtonClickAudio();
+    }
+
+    public void CreditsButton()
+    {
+        creditsPanel.SetActive(true);
+        if (PlayerPrefs.GetInt("lang") == 0)
+        {
+            englishCredits.SetActive(true);
+            urkCredits.SetActive(false);
+        }
+        else
+        {
+            englishCredits.SetActive(false);
+            urkCredits.SetActive(true);
+        }
+        PlayButtonClickAudio();
+    }
+
+    public void BackButton()
+    {
+        creditsPanel.SetActive(false);
+        PlayButtonClickAudio();
     }
 
     public void SetUkrainianLanguage()
@@ -37,6 +68,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("lang", 1);
         UpdatedMenuLanguage();
         settingsPanel.SetActive(false);
+        PlayButtonClickAudio();
     }
 
     public void SetEnglishLanguage()
@@ -44,6 +76,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("lang", 0);
         UpdatedMenuLanguage();
         settingsPanel.SetActive(false);
+        PlayButtonClickAudio();
     }
 
     private void UpdatedMenuLanguage()
@@ -61,4 +94,15 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    private IEnumerator StartGameRoutine()
+    {
+        startGameAS.Play();
+        yield return new WaitForSeconds(2.5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    private void PlayButtonClickAudio()
+    {
+        buttonClickAS.Play();
+    }
 }

@@ -7,6 +7,7 @@ public class ShrinePickupBuffs : MonoBehaviour
 
     [SerializeField] private GameObject ChoseUIPanel;
     [SerializeField] private GameObject ToolTipGO;
+    [SerializeField] private AudioSource shrineAudioSource;
 
     private bool isInRange;
     private bool isUsed;
@@ -19,6 +20,7 @@ public class ShrinePickupBuffs : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 isUsed = true;
+                shrineAudioSource.Play();
                 ToolTipGO.SetActive(false);
                 ChoseUIPanel.SetActive(true);
             }

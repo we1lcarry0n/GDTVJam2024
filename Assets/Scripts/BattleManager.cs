@@ -14,6 +14,8 @@ public class BattleManager : MonoBehaviour
     private ParticleSystem defeatedEnemiesParticles;
     private List<Character> defeatedCharacters;
 
+    [SerializeField] private AudioSource defeatedAudioSource;
+
     private void Awake()
     {
         Instance = this;
@@ -121,6 +123,7 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         defeatedEnemiesParticles.Play();
+        defeatedAudioSource.Play();
     }
 }
                                                                                                                                                                         
