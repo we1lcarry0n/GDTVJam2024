@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CharacterPlayable : Character
 {
+    [SerializeField] private AudioSource stepsAudioSource;
     [SerializeField] private float applyDmgBuffForSkill3;
     [SerializeField] private Skill[] skills;
 
@@ -16,6 +17,8 @@ public class CharacterPlayable : Character
     [SerializeField] private string[] characterName;
     [SerializeField] private string[] engSkillDescriptions;
     [SerializeField] private string[] ukrSkillDescriptions;
+
+    [SerializeField] private AudioSource buffAS;
 
     private float temporarySkillDamageGradeMultiplier;
 
@@ -146,8 +149,20 @@ public class CharacterPlayable : Character
         StartCoroutine(IncreasedDamageFXRoutine());
     }
 
+    public void PlayFootstepSound()
+    {
+        if (Random.Range(0, 2) == 0)
+        {
+            return;
+        }
+        stepsAudioSource.pitch = Random.Range(.9f, 1.1f);
+        stepsAudioSource.volume = Random.Range(.8f, 1f);
+        stepsAudioSource.Play();
+    }
+
     private void AddTemporaryDmgBuff(float amount)
     {
+        buffAS.Play();
         temporarySkillDamageGradeMultiplier = amount;
         buffFX.SetActive(true);
     }
@@ -166,6 +181,7 @@ public class CharacterPlayable : Character
 
     private IEnumerator IncreasedDamageFXRoutine()
     {
+        buffAS.Play();
         buffFX.SetActive(true);
         yield return new WaitForSeconds(1f);
         buffFX.SetActive(false);

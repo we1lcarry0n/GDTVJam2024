@@ -11,6 +11,8 @@ public class PickUpNoteObject : MonoBehaviour
     [SerializeField] private TMP_Text noteText;
     [SerializeField] private string[] noteMessageText;
 
+    [SerializeField] private AudioSource noteInteractionAS;
+
     private bool isInRange;
     private bool isInteracted;
     private bool isUsed;
@@ -28,6 +30,7 @@ public class PickUpNoteObject : MonoBehaviour
                     isInteracted = true;
                     ToolTipGO.SetActive(false);
                     ChoseUIPanel.SetActive(true);
+                    noteInteractionAS.Play();
                     if (PlayerPrefs.GetInt("lang") == 0)
                     {
                         noteText.text = noteMessageText[0];

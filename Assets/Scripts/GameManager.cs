@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject journalGameObject;
 
+    [SerializeField] private AudioSource buttonPressAS;
+
     private void Awake()
     {
         Instance = this;
@@ -49,5 +51,10 @@ public class GameManager : MonoBehaviour
             backgroundMusicAudioSource.clip = adventuringAudioClip;
             backgroundMusicAudioSource.Play();
         }
+    }
+
+    public void PlayButtonAudioClip()
+    {
+        buttonPressAS.Play();
     }
 }

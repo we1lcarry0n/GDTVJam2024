@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField] protected AudioSource takeHitAudioSource;
+
     [SerializeField] protected float maxHealth;
     [SerializeField] protected int indexOnScene;
 
@@ -15,6 +17,9 @@ public class Health : MonoBehaviour
     [SerializeField] protected ParticleSystem healParticles;
     [SerializeField] protected GameObject buffNextDamageAmountFX;
     [SerializeField] private GameObject debuffNextDamageAmountFX;
+
+    [SerializeField] private AudioSource healAS;
+    [SerializeField] private AudioSource debuffAS;
 
     protected float nextDamageInstanceModifier = 1f;
 
@@ -49,6 +54,7 @@ public class Health : MonoBehaviour
         {
             currentHealth += healthModified;
             PlayHealText(healthModified);
+            healAS.Play();
         }
         if (healthModified < 0)
         {
@@ -81,10 +87,12 @@ public class Health : MonoBehaviour
         nextDamageInstanceModifier += percentageAmount;
         if (percentageAmount > 0)
         {
+            debuffAS.Play();
             debuffNextDamageAmountFX.SetActive(true);
         }
         if (percentageAmount < 0)
         {
+            healAS.Play();
             buffNextDamageAmountFX.SetActive(true);
         }
     }
@@ -121,6 +129,8 @@ public class Health : MonoBehaviour
         damageText.SetActive(true);
         damageText.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = DamageAmount.ToString();
         damageText.GetComponent<Animation>().Play();
+        GetComponent<Animator>().SetTrigger("takeHit");
+        takeHitAudioSource.Play();
     }
 
     protected void PlayHealText(float HealAmount)

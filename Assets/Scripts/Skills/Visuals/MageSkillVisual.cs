@@ -12,6 +12,8 @@ public class MageSkillVisual : MonoBehaviour
     [SerializeField] private Transform projectileLaunchUpper;
     [SerializeField] private Transform projectileLaunchLower;
 
+    [SerializeField] private AudioSource papersSkillAS;
+
     public void KunaiThrowSkill1()
     {
         GameObject arrowObject = Instantiate(kunaiProjectile, projectileLaunchTransform);
@@ -20,6 +22,7 @@ public class MageSkillVisual : MonoBehaviour
 
     public void CursedPapersThrowSkill2()
     {
+        papersSkillAS.Play();
         GameObject arrowObject1 = Instantiate(cursedPaperProjectile, projectileLaunchUpper);
         GameObject arrowObject2 = Instantiate(cursedPaperProjectile, projectileLaunchTransform);
         GameObject arrowObject3 = Instantiate(cursedPaperProjectile, projectileLaunchLower);
@@ -30,6 +33,7 @@ public class MageSkillVisual : MonoBehaviour
 
     public void BlessedPapersThrowSkill3()
     {
+        papersSkillAS.Play();
         GameObject arrowObject1 = Instantiate(blessedPaperProjectile, projectileLaunchUpper);
         GameObject arrowObject2 = Instantiate(blessedPaperProjectile, projectileLaunchTransform);
         GameObject arrowObject3 = Instantiate(blessedPaperProjectile, projectileLaunchLower);
