@@ -54,6 +54,10 @@ public class PlayerManager : MonoBehaviour
             return;
         }
         float horizontalMovement = Input.GetAxis("Horizontal");
+        if (transform.position.z < -40.5f && horizontalMovement < 0)
+        {
+            return;
+        }
         transform.position += new Vector3(0, 0, horizontalMovement * speed * Time.deltaTime);
     }
 
