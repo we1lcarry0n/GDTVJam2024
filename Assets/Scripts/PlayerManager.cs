@@ -20,6 +20,8 @@ public class PlayerManager : MonoBehaviour
     public bool isFight {  get; private set; }
     public bool isInInterraction;
 
+    public bool isPressed { get; private set; }
+
     private GameManager gameManager;
     private void Awake()
     {
@@ -40,6 +42,15 @@ public class PlayerManager : MonoBehaviour
         }
         if (isInInterraction)
         {
+            return;
+        }
+        if (isPressed)
+        {
+            transform.position += new Vector3(0, 0, 1 * speed * Time.deltaTime);
+            foreach (CharacterPlayable character in playableCharacters)
+            {
+                character.GetAnimator().SetFloat("speed", 1);
+            }
             return;
         }
         float horizontalMovement = Input.GetAxis("Horizontal");
@@ -78,5 +89,15 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("The fight has ended!");
         }
         isFight = fight;
+    }
+
+    public void OnMovePressBegin()
+    {
+        isPressed = true;
+    }
+
+    public void OnMovePressEnd()
+    {
+        isPressed = false;
     }
 }

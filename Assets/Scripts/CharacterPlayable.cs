@@ -24,7 +24,7 @@ public class CharacterPlayable : Character
 
     private void Update()
     {
-        if (!GameManager.Instance.isFight)
+        if (!GameManager.Instance.isFight && !PlayerManager.Instance.isPressed)
         {
             float horizontalMovement = Input.GetAxis("Horizontal");
             animator.SetFloat("speed", horizontalMovement);
