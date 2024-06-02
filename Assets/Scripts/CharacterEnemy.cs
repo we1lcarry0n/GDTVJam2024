@@ -8,6 +8,8 @@ public class CharacterEnemy : Character
 
     [field : SerializeField] public Slider enemyHealthBar { get; private set; }
 
+    [SerializeField] private Skill[] skills;
+
     [SerializeField] private ParticleSystem spawnFX;
     [SerializeField] private AudioSource spawnAS;
 
@@ -15,7 +17,14 @@ public class CharacterEnemy : Character
     {
         if (isActiveInBattle)
         {
-            UseSkill();   
+            if (Random.Range(0, 2) == 0)
+            {
+                UseSkill1();
+            }
+            else
+            {
+                UseSkill2();
+            }
         }
     }
 
@@ -26,15 +35,34 @@ public class CharacterEnemy : Character
         spawnAS.Play();
     }
 
-    private void UseSkill()
+    public void UseSkill1()
     {
-        StartCoroutine(UseSkillRoutine());
+        List<Transform> targets = new List<Transform>();
+        foreach (CharacterPlayable character in PlayerManager.Instance.playableCharacters)
+        {
+            targets.Add(character.transform);
+        }
+        StartCoroutine(skills[0].Init(targets, 1 + 0));
+        animator.SetTrigger("skill1");
+        StartCoroutine(EndedTurnRoutine());
     }
 
-    private IEnumerator UseSkillRoutine()
+    public void UseSkill2()
+    {
+        List<Transform> targets = new List<Transform>();
+        foreach (CharacterPlayable character in PlayerManager.Instance.playableCharacters)
+        {
+            targets.Add(character.transform);
+        }
+        StartCoroutine(skills[1].Init(targets, 1 + 0));
+        animator.SetTrigger("skill2");
+        StartCoroutine(EndedTurnRoutine());
+    }
+
+    private IEnumerator EndedTurnRoutine()
     {
         isActiveInBattle = false;
-        yield return new WaitForSeconds(2);
-        BattleManager.Instance.CharacterEndedTurn();
+        yield return new WaitForSeconds(4f);
+        EndTurn();
     }
 }
