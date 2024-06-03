@@ -102,6 +102,11 @@ public class Health : MonoBehaviour
         isDead = true;
     }
 
+    public void DenyDeath()
+    {
+        isDead = false;
+    }
+
     public float GetHealthCurrent()
     {
         return currentHealth;
@@ -121,6 +126,7 @@ public class Health : MonoBehaviour
     public void HealForPercentageAmount(float percentageAmount)
     {
         float toHeal = maxHealth * percentageAmount;
+        Debug.Log($"TryeingToHeal for {toHeal}");
         ModifyHealth(toHeal);
     }
 

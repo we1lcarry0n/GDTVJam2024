@@ -23,9 +23,12 @@ public class PlayerManager : MonoBehaviour
     public bool isPressed { get; private set; }
 
     private GameManager gameManager;
+    private List<CharacterPlayable> characterPlayablesDefeated;
+
     private void Awake()
     {
         Instance = this;
+        characterPlayablesDefeated = new List<CharacterPlayable>();
     }
 
     private void Start()
@@ -38,6 +41,10 @@ public class PlayerManager : MonoBehaviour
     {
         if (isFight)
         {
+            if (characterPlayablesDefeated.Count == playableCharacters.Count && characterPlayablesDefeated.Count != 0)
+            {
+                BattleManager.Instance.EndBattlePlayerDefeated();
+            }
             return;
         }
         if (isInInterraction)
@@ -93,6 +100,21 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("The fight has ended!");
         }
         isFight = fight;
+    }
+
+    public void ClearDefeatedCharacters()
+    {
+        characterPlayablesDefeated.Clear();
+    }
+
+    public void AddCharacterToDefeatedList(CharacterPlayable character)
+    {
+        characterPlayablesDefeated.Add(character);
+    }
+
+    public void RemoveCharacterFromDefeatedList(CharacterPlayable character)
+    {
+        characterPlayablesDefeated.Remove(character);
     }
 
     public void OnMovePressBegin()

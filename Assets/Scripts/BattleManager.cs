@@ -100,6 +100,15 @@ public class BattleManager : MonoBehaviour
         {
             defeatedCharacters.Add(enemy);
         }
+        foreach (CharacterPlayable playable in PlayerManager.Instance.playableCharacters)
+        {
+            if (playable.isDefeated)
+            {
+                playable.GetComponent<Health>().DenyDeath();
+                playable.GetAnimator().SetBool("isDefeated", false);
+                playable.GetComponent<Health>().HealForPercentageAmount(.25f);
+            }
+        }
         /*for (int i = 0; i < EnemyManager.Instance.enemyCharacters.Count; i++)
         {
             defeatedCharacters[i] = EnemyManager.Instance.enemyCharacters[i];

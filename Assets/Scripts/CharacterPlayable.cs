@@ -21,9 +21,17 @@ public class CharacterPlayable : Character
     [SerializeField] private AudioSource buffAS;
 
     private float temporarySkillDamageGradeMultiplier;
+    public bool isDefeated = false;
 
     private void Update()
     {
+        if (isDefeated && isActiveInBattle)
+        {
+            Debug.Log($"Character {gameObject.name} is ending turn due to death!");
+            EndTurn();
+            return;
+        }
+
         if (!GameManager.Instance.isFight && !PlayerManager.Instance.isPressed)
         {
             float horizontalMovement = Input.GetAxis("Horizontal");
@@ -175,7 +183,7 @@ public class CharacterPlayable : Character
 
     private IEnumerator EndedTurnRoutine()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(4.5f);
         EndTurn();
     }
 

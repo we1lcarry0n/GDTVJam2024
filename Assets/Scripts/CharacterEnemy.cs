@@ -13,10 +13,13 @@ public class CharacterEnemy : Character
     [SerializeField] private ParticleSystem spawnFX;
     [SerializeField] private AudioSource spawnAS;
 
+    [SerializeField] private GameObject UICoverGO;
+
     private void Update()
     {
         if (isActiveInBattle)
         {
+            UICoverGO.SetActive(true);
             if (Random.Range(0, 2) == 0)
             {
                 UseSkill1();
@@ -63,6 +66,7 @@ public class CharacterEnemy : Character
     {
         isActiveInBattle = false;
         yield return new WaitForSeconds(4f);
+        UICoverGO.SetActive(false);
         EndTurn();
     }
 }
