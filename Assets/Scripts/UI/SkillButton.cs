@@ -36,17 +36,24 @@ public class SkillButton : MonoBehaviour
         {
             return;
         }
+        if (!currentActiveCharacter.isActiveInBattle)
+        {
+            return;
+        }
         if (skillIndex == 0)
         {
             currentActiveCharacter.UseSkill1();
+            currentActiveCharacter.DeactivateCharacterOnMouseClickSkill();
         }
         if (skillIndex == 1)
         {
             currentActiveCharacter.UseSkill2();
+            currentActiveCharacter.DeactivateCharacterOnMouseClickSkill();
         }
         if (skillIndex == 2)
         {
             currentActiveCharacter.UseSkill3();
+            currentActiveCharacter.DeactivateCharacterOnMouseClickSkill();
         }
     }
 

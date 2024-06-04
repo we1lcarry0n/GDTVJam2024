@@ -26,9 +26,9 @@ public class MageSkillVisual : MonoBehaviour
         GameObject arrowObject1 = Instantiate(cursedPaperProjectile, projectileLaunchUpper);
         GameObject arrowObject2 = Instantiate(cursedPaperProjectile, projectileLaunchTransform);
         GameObject arrowObject3 = Instantiate(cursedPaperProjectile, projectileLaunchLower);
-        Destroy(arrowObject1, 1.8f);
-        Destroy(arrowObject2, 1.5f);
-        Destroy(arrowObject3, 1.2f);
+        Destroy(arrowObject1, 1.2f);
+        Destroy(arrowObject2, 0.9f);
+        Destroy(arrowObject3, 0.6f);
     }
 
     public void BlessedPapersThrowSkill3()

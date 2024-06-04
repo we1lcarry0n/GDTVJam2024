@@ -10,7 +10,7 @@ public class Character : MonoBehaviour, IComparable
     [SerializeField] protected int initiative;
     [SerializeField] protected GameObject activeIndicator;
 
-    protected bool isActiveInBattle;
+    public bool isActiveInBattle;
 
     public bool IsDefeated { get; private set; }
 

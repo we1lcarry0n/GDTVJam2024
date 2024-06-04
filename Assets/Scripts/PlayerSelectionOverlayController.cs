@@ -14,6 +14,10 @@ public class PlayerSelectionOverlayController : MonoBehaviour
         {
             return;
         }
+        if (GameManager.Instance.isFight)
+        {
+            return;
+        }
         DeselectAll();
         characterSelectedObject[characterToSelectIndex].SetActive(true);
         PlayerManager.Instance.playableCharacters[characterToSelectIndex].ActivateCharacterOutsidebattle();

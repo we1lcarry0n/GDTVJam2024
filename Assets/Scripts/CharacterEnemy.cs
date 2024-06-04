@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,10 +16,18 @@ public class CharacterEnemy : Character
 
     [SerializeField] private GameObject UICoverGO;
 
+    [SerializeField] private TMP_Text enemyNameText;
+    [SerializeField] private string[] enemyNames;
+
+    [SerializeField] private TMP_Text enemyThreatText;
+    [SerializeField] private string[] engEnemyThreats;
+    [SerializeField] private string[] ukrEnemyThreats;
+
     private void Update()
     {
         if (isActiveInBattle)
         {
+            SetTextsOnActive();
             UICoverGO.SetActive(true);
             if (Random.Range(0, 2) == 0)
             {
@@ -67,6 +76,24 @@ public class CharacterEnemy : Character
         isActiveInBattle = false;
         yield return new WaitForSeconds(4f);
         UICoverGO.SetActive(false);
+        enemyNameText.text = "";
+        enemyThreatText.text = "";
         EndTurn();
+    }
+
+    private void SetTextsOnActive()
+    {
+        if (PlayerPrefs.GetInt("lang") == 0)
+        {
+            enemyNameText.text = enemyNames[0];
+            int indexThreat = Random.Range(0, 2);
+            enemyThreatText.text = engEnemyThreats[indexThreat];
+        }
+        else
+        {
+            enemyNameText.text = enemyNames[1];
+            int indexThreat = Random.Range(0, 2);
+            enemyThreatText.text = ukrEnemyThreats[indexThreat];
+        }
     }
 }

@@ -77,6 +77,11 @@ public class CharacterPlayable : Character
         ActivateCharacterOutsidebattle();
     }
 
+    public void DeactivateCharacterOnMouseClickSkill()
+    {
+        isActiveInBattle = false;
+    }
+
     public void ActivateCharacterOutsidebattle()
     {
         for (int i = 0; i < skillSprites.Length; i++)
